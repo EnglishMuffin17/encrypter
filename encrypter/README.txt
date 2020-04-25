@@ -8,7 +8,7 @@ to start, import encrypter.py as follows:
 Dependancies:
 
     - #Builtins
-        encrypter uses a small number of dependancies
+        encrypter uses a small number of dependencies
         for utilities and debugging purposes:
 
         1. threading
@@ -18,7 +18,7 @@ Dependancies:
         5. os
 
     - pkg_utils
-        encrypter defines three dependancies as utiliy functions:
+        encrypter defines three dependencies as utiliy functions:
 
         1. Threader
         2. encrypt_logger
