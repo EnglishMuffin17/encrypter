@@ -1,0 +1,2 @@
+This is the main directory for any log actions taken by encrypt.py
+any actions will be logged and dated in their respective files here.
