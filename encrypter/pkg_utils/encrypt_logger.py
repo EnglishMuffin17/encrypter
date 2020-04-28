@@ -21,7 +21,7 @@ class Logger:
     log_format = ""
 
     log_time = datetime.datetime.today()
-    log_time = log_time.strftime("%H:%M")
+    log_time = log_time.strftime("%H:%M:%S")
 
     log = logging.getLogger(__name__)
     
@@ -48,7 +48,14 @@ class Logger:
             cls.log_handler.setFormatter(cls.log_formatter)
             cls.log.addHandler(cls.log_handler)
 
+            cls.log_time = datetime.datetime.today()
+            cls.log_time = cls.log_time.strftime("%H:%M:%S")
             cls.log.info(f"[{__name__}] {cls.log_title} initiated at [{cls.log_time}]")
+
+            if cls.log_level == "debug":
+                cls.log_time = datetime.datetime.today()
+                cls.log_time = cls.log_time.strftime("%H:%M:%S")
+                cls.log.debug(f"log_level set to [DEBUG] [{cls.log_time}]")
 
     @classmethod
     def configureLogger(cls,path,title,format_,log_enabled=False,log_level="info"):
@@ -71,37 +78,31 @@ class Logger:
             print(f"{__name__} Configured. Ready to log if enabled")
 
     @classmethod
-    def submitEvent(cls,func,log_level="info"):
+    def submitEvent(cls,func,log_level="INFO"):
         """
         Decorator.\n
         When applied to a function, on a function call, @submitEvent submits a request
         to log events to the appropriate  log file
         """
-        log_levels = {
-            "debug":cls.log.debug,
-            "info":cls.log.info,
-            "warn":cls.log.warning,
-            "error":cls.log.error,
-            "critical":cls.log.critical
-        }
-
-        
         class_name = func.__qualname__
-        name = f"{class_name}"
-        
-        def wrapper_enabled(*args,**kwargs):
-            log_levels[log_level](f"[{log_level}] <{name}> called at [{cls.log_time}]")
-            log_levels["debug"](f"[debug] <{name}> given ({args}) and ({kwargs}) as arguments at [{cls.log_time}]")
+        name = class_name
+
+        time = datetime.datetime.today()
+        time = time.strftime("%H:%M:%S")
+
+        def wrapper(*args,**kwargs):
+            log_levels = {
+                "DEBUG":cls.log.debug,
+                "INFO":cls.log.info,
+                "WARN":cls.log.warning,
+                "ERROR":cls.log.error,
+                "CRITICAL":cls.log.critical
+            }
+
+            log_levels[log_level](f"[{log_level}] <{name}> called at [{time}]")
             return func(*args,**kwargs)
-
-        def wrapper_disabled(*args,**kwargs):
-            return func(*args,**kwargs)
-
-        if cls.log_enabled:    
-            return wrapper_enabled
-        else:
-            return wrapper_disabled
-
+            
+        return wrapper
 
 if __name__ == "__main__":
     print("Running from encrypt_log.py as <__main__>")
@@ -109,8 +110,12 @@ if __name__ == "__main__":
     log_path = "encrypter/logs/"
     log_title = "log_test"
     log_format = "%(message)s"
-    Logger.configureLogger(log_path,log_title,log_format,log_level="info")
+    Logger.configureLogger(log_path,log_title,log_format,log_enabled=True,log_level="info")
     Logger.start()
+
+    @Logger.submitEvent
+    def emptyfunc():
+        pass
 
 elif Config.show_run_test:
     print(f"{__name__} Running...")

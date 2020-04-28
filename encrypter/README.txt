@@ -29,7 +29,14 @@ Dependancies:
         functions that the main encrypt file (encrypt.py) uses:
 
         1. Chars
-        2. Bases        
+        2. Bases
+
+    - encrypter.py classes
+        Utilizing the dependencies, encrypter defines three classes for user purposes:
+
+        1. EncryptLogger
+        2. baseConverter
+        3. CharGenerator
 
 EncryptLogger - class
     EncryptLogger utilizes encrypt_logger.py to handle logging events.
@@ -86,14 +93,14 @@ BaseConverter - class
         
         2. testLength
             Tests the length of a stack (integer string value sliced in an array)
-            comparing it to the current max_length. If inserts is equalt to False,
+            comparing it to the current max_length. If inserts is equal to False,
             testLength only tests the length of the stack versus max_length. If inserts
             is equal to True, testLength fills the diffence (empty space) between the
             length of max_length and the stack.
 
             arguments:
                 stack - array of integer string values
-                max_length - current maximum length
+                max_length - integer value to compare the length of stack
                 char - replacement character for if inserts is equal to True 
                 inserts - False by default. Determines whether or not testLength will
                 only test the length of a stack or fill the stack with replacement chars.
@@ -107,8 +114,26 @@ BaseConverter - class
 CharGenerator - class
     CharGenerator utilizes the Chars class in Chars.py to handle key/value assignment.
 
+    CHARACTERS - dictionary
+        The CHARACTERS dictionary holds string arrays, as make ready for encryption.
+        The arrays are as follows:
+
+            "UPPER_ALPHA" - a string of upper case letters
+            "LOWER_ALPHA" - a string of lower case letters
+            "PUNCTUATION" - a string of punctuation and syntax characters
+            "DIGITS" - a string of digits 0-9
+            "WHITESPACE" - a single character of " " as the place holder
+
     methods:
-        1. merge
+
+        1. getCharacters
+            Returns either all string arrays from CHARACTERS or just the specified string.
+
+            arguments:
+                characters_list - None by default. If None, return all; else returns specific
+                string
+
+        2. strand
             Returns a new dictionary of key/value pairs where the keys are the chars from
             the CHARACTERS specified array, and the values are the integers from the
             character_values specified array.
@@ -117,14 +142,14 @@ CharGenerator - class
                 knit_list_id - shared key_name in CHARACTERS and character_values
                 to be merged
 
-        2. mergeAll
+        3. strandAll
             Utilizes merge method to merge CHARACTERS arrays to thier respective values
             from character_values.
 
             arguments:
                 takes no arguments.
 
-        3. setAllValues
+        4. setAllStitches
             Generates values for all CHARACTERS arrays using the same knit_pattern.
 
             {NOTICE} each CHARACTERS array will start from 0 and increment using the
@@ -136,7 +161,7 @@ CharGenerator - class
                 value generation
                 **kwargs - Refer to setValue for further documentation
 
-        4. setValue
+        5. setStitch
             Returns a set of values based on the length of a specific array. Each value
             is generated based on a defined pattern.
 
@@ -145,7 +170,7 @@ CharGenerator - class
                 knit_list - list or dictionary to be iterated through
                 STEP - increment value for each iteration
                 OFFSET - change value for certain knit_paterns (SIN,COS,POW,INVERSE,EQUALS,NOTEQUALS)
-                ROTATION - negative integer that dictates if the list is rotated before
+                ROTATION - integer that dictates if the list is rotated before
                 returned for assignment
 
             knit_patterns:
@@ -159,8 +184,8 @@ CharGenerator - class
                 given integer % the given OFFSET equals 0
                 NOTEQUALS - inverse of EQUALS
 
-        5. getMergedDict
-                Returns the merged_dict if the dictionary has been merged sucessfully.
+        6. getStrandedDict
+                Returns stranded_dict if the dictionary has been merged sucessfully.
 
                 arguments:
                     takes no arguments.

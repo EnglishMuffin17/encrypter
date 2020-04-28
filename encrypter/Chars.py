@@ -16,15 +16,15 @@ class Chars:
     CHARACTERS = {
             "UPPER_ALPHA":(string.ascii_uppercase),
             "LOWER_ALPHA":(string.ascii_lowercase),
+            "WHITESPACE":(" "),
             "PUNCTUATION":(string.punctuation),
-            "DIGITS":(string.digits),
-            "WHITESPACE":(" ")
+            "DIGITS":(string.digits)
         }
     
     def __init__(self):
 
         self.character_values = {}
-        self.merged_dict = {}
+        self.stranded_dict = {}
 
         if Config.show_console:
             self.getCharacterCheck()
@@ -47,14 +47,14 @@ class Chars:
         Get a specific array, or all if None is specified
         """
         if character_list == None:
-            return cls.CHARACTERS
+            return cls.CHARACTERS.values()
         else:
             return cls.CHARACTERS[character_list]
 
     @Threader.addthread
-    def merge(self,knit_list_id):
+    def strand(self,knit_list_id):
         """
-        Merge CHARACTERS and character_values into a new dict, add to merged_dict
+        Merge CHARACTERS and character_values into a new dict, add to standed_dict
         """
 
         # Test to ensure knit_list_id exists inside of CHARACTERS and character_values
@@ -78,15 +78,15 @@ class Chars:
         for i in char_keys:
             new_dict[i] = char_vals[char_keys.index(i)]
         
-        self.merged_dict[knit_list_id] = new_dict
+        self.stranded_dict[knit_list_id] = new_dict
 
         return new_dict
 
-    def mergeAll(self):
+    def strandAll(self):
         for i in self.CHARACTERS:
-            self.merge(i)            
+            self.strand(i)            
 
-    def setAllValues(self,knit_pattern,**kwargs):
+    def setAllStitches(self,knit_pattern,**kwargs):
         """
         Calculate and return the values attributed to the characters
         """
@@ -106,7 +106,7 @@ class Chars:
 
         return self.character_values
 
-    def setValue(self,knit_pattern,knit_list,**kwargs):
+    def setStitch(self,knit_pattern,knit_list,**kwargs):
         """
         Calculate and return the values of a specified array
         """
@@ -171,12 +171,12 @@ class Chars:
             "SIN":lambda integer: math.ceil(math.sin(integer)*OFFSET),
             "COS":lambda integer: math.ceil(math.cos(integer)*OFFSET),
             "POW":lambda integer: integer**OFFSET,
-            "INVERSE":lambda integer: math.ceil((integer*-1)*OFFSET),
+            "INVERSE":lambda integer: math.ceil(((integer+1)**-1)*OFFSET),
             "EQUALS":EQUALS,
             "NOTEQUALS":NOTEQUALS
         }
         
-        # Create a list of values using the defined args and kwargs defined abouve
+        # Create a list of values using the defined args and kwargs defined above
         if Config.show_console:
             print(f"Attempting to {knit_pattern}ify values for {knit_list_id}")
             print(f"{knit_list_id} <list> length: {list_length}")
@@ -205,29 +205,23 @@ class Chars:
         return knit_values
 
 class KnitPatternNotSet(Exception):
-    @Logger.submitEvent
-    def __init__(self):
-        super().__init__()
     """Raised when a merge occurs but there is no knit_pattern set"""
 
 class KnitValueError(Exception):
-    @Logger.submitEvent
-    def __init__(self):
-        super().__init__()
     """Raised when knit_pattern method call has invalid output"""
 
 if __name__ == "__main__":
     print("Running from Chars.py as <__main__>")
     char_test = Chars()
 
-    alpha_upper = Chars().setValue("SIN","UPPER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
-    alpha_lower = Chars().setValue("COS","LOWER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
+    alpha_upper = Chars().setStitch("SIN","UPPER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
+    alpha_lower = Chars().setStich("COS","LOWER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
 
     print(alpha_upper)
     print(alpha_lower)
 
-    char_test.setValue("HEX","UPPER_ALPHA")
-    char_test.merge("UPPER_ALPHA")
+    char_test.setStitch("HEX","UPPER_ALPHA")
+    char_test.strand("UPPER_ALPHA")
 
 elif Config.show_run_test:
     print(f"{__name__} Running...")

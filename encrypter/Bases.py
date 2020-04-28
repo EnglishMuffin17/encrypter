@@ -20,6 +20,7 @@ class Bases:
         """
         Returns an integer as a base value.
         """
+
         if not type(integer) == int:
             raise ConversionError(
         "Invalid input for integer argument."+
@@ -41,7 +42,10 @@ class Bases:
         elif integer > 0:
             while integer > 0:
                 remainder = integer % self.base
-                remainder_stack.insert(0,str(remainder))
+                if remainder == 0:
+                    remainder_stack.insert(0,fill_char)
+                else:
+                    remainder_stack.insert(0,str(remainder))
                 integer = integer // self.base
         
         remainder_stack = self.testLength(remainder_stack,self.max_length,fill_char)
@@ -55,7 +59,7 @@ class Bases:
         return "".join(remainder_stack)
 
     @staticmethod
-    def testLength(stack,max_length,char,inserts=False):
+    def testLength(stack,max_length,char='?',inserts=False):
         """
         Tests the length of the stack and returns a dict of the stack and the max_length.
         If the stack exceeds the max_length, a new max_length is returned.
@@ -78,6 +82,9 @@ class Bases:
             while len(stack) < max_length:
                 stack.insert(0,char)
             return_values["stack"] = stack
+            
+            return "".join(return_values["stack"])
+        
         return return_values
 
     @staticmethod
@@ -98,9 +105,6 @@ class Bases:
         return return_values
 
 class ConversionError(Exception):
-    @Logger.submitEvent
-    def __init__(self):
-        super().__init__()
     """Raised if an integer string has already been converted"""
 
 if __name__ == "__main__":
