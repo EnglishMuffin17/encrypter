@@ -26,7 +26,7 @@ class Knots:
 
         charObj.CHARACTERS["BRAIDED"] = braided_string
 
-class Interpreter:
+class Encoder:
 
     def __init__(self,key,baseObj):
         self.key = key
@@ -88,8 +88,8 @@ def main():
         value = base_test.testLength(braids[key],length,char=fill_char,inserts=True)
         braids[key] = value
 
-    #Use strand as a key for an Interpreter object
-    control = Interpreter(braids,base_test)
+    #Use strand as a key for an Encoder object
+    control = Encoder(braids,base_test)
     mystring = "Banana Boats"
 
     mystring_encoded = control.encoder(mystring)
