@@ -20,7 +20,7 @@ Dependancies:
     - pkg_utils
         encrypter defines three dependencies as utiliy functions:
 
-        1. Threader
+        1. encrypt_threader
         2. encrypt_logger
         3. encrypt_config
 
