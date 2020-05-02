@@ -133,7 +133,7 @@ class EncrypterTest:
             cls.braid[char] = "".join(next_value) 
 
 def main():
-    file_path = 'encrypter/test files/test.txt'
+    file_path = 'test files/test.txt'
     
     EncrypterTest()
     EncrypterTest.setup()
