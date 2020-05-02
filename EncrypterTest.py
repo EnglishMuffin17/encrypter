@@ -104,31 +104,43 @@ class Interpreter:
                 else:
                     file.write(line)
 
-def main():
-    file_path = 'encrypter/test files/test.txt'
-
+class EncrypterTest:
     base_test = encrypter.BaseConverter(8)
     char_test = encrypter.CharGenerator()
     Knots().fBraid(char_test)
 
-    char_test.setStitch("EQUALS","fBRAIDED",STEP=9,OFFSET=10,ROTATION=15)
-    char_test.strand("fBRAIDED")
-    braid = char_test.getStrandedDict("fBRAIDED")
+    @classmethod
+    def setup(cls):
+        cls.char_test.setStitch("EQUALS","fBRAIDED",STEP=4,
+                                OFFSET=3,ROTATION=15)
+        cls.char_test.strand("fBRAIDED")
+        cls.braid = cls.char_test.getStrandedDict("fBRAIDED")
 
-    for char in braid:
-        next_char = braid[char]
-        next_value = base_test.convert(next_char,fill_char='*',neg_char='.')
-        braid[char] = next_value
+    @classmethod
+    def makeKey(cls):
+        for char in cls.braid:
+            next_char = cls.braid[char]
+            next_value = cls.base_test.convert(next_char,fill_char='|',
+                                                neg_char='&')
+            cls.braid[char] = next_value
     
-    test_length = base_test.getMaxLength()
-    for char in braid:
-        next_char = braid[char]
-        next_value = [c for c in next_char]
-        next_value = base_test.testLength(next_value,test_length,'*',inserts=True)
-        braid[char] = "".join(next_value) 
+        test_length = cls.base_test.getMaxLength()
+        for char in cls.braid:
+            next_char = cls.braid[char]
+            next_value = [c for c in next_char]
+            next_value = cls.base_test.testLength(next_value,test_length,'?',
+                                            inserts=True)
+            cls.braid[char] = "".join(next_value) 
 
+def main():
+    file_path = 'encrypter/test files/test.txt'
+    
+    EncrypterTest()
+    EncrypterTest.setup()
+    EncrypterTest.makeKey()
 
-    Interpreter(braid,base_test).fileCoder(file_path,file_mode='d')
+    Interpreter(EncrypterTest.braid,
+                EncrypterTest.base_test).fileCoder(file_path,file_mode='e')
 
 if __name__ == "__main__":
     start = time.time()

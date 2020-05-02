@@ -27,12 +27,9 @@ class Bases:
         f" '{integer}' is either a string, float or already converted")
 
         remainder_stack = []
-        integer = self.testNegative(integer)
-
-        # If the integer value is a negative, insert neg_char into the remainder_stack
-        if integer["negative"] == True:
-            remainder_stack.insert(0,neg_char)
-        integer = integer["integer"]
+        test_integer = self.testNegative(integer)
+        integer = test_integer["integer"]
+        is_negative = test_integer["negative"]
 
         # If the integer value is 0, replace insert fill_char into the remainder_stack;
         # Else if the integer is greater than 0, convert integer into the base and
@@ -47,6 +44,10 @@ class Bases:
                 else:
                     remainder_stack.insert(0,str(remainder))
                 integer = integer // self.base
+        
+        # If the integer value is a negative, insert neg_char into the remainder_stack
+        if is_negative:
+            remainder_stack.insert(0,neg_char)
         
         remainder_stack = self.testLength(remainder_stack,self.max_length,fill_char)
         

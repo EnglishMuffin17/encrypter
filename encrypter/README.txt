@@ -1,6 +1,8 @@
 README file for encrypter.py
 
-encrypter.py version no. 1.0
+encrypter.py version no. 1.1
+
+790 lines of code as of 05/02/2020
 
 to start, import encrypter.py as follows:
 "from encrypter import encrypter"
