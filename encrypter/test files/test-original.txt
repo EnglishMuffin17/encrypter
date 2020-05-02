@@ -1,0 +1,3 @@
+This is a simple text document with little to no importance whatsoever.
+In this file we will demonstrate utilizing encrypter.py by masking each of
+these lines with a encrypted version of itself.

@@ -2,7 +2,7 @@ class Config:
 
     """Console configuration"""
 
-    #Show 'Running...' statements from dependencies
+    #Show 'Running...' statements from dependancies
     show_run_test = False
 
     #Show Console messages concerning threads

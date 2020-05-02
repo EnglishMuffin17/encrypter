@@ -16,7 +16,7 @@ class Bases:
         self.max_length = 0
     
     @Threader.addthread
-    def baseConverter(self,integer,fill_char='?',neg_char='x'):
+    def convert(self,integer,fill_char='?',neg_char='x'):
         """
         Returns an integer as a base value.
         """
@@ -59,7 +59,7 @@ class Bases:
         return "".join(remainder_stack)
 
     @staticmethod
-    def testLength(stack,max_length,char='?',inserts=False):
+    def testLength(stack,max_length=None,char='?',inserts=False):
         """
         Tests the length of the stack and returns a dict of the stack and the max_length.
         If the stack exceeds the max_length, a new max_length is returned.
