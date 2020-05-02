@@ -1,6 +1,6 @@
 from encrypter import encrypter
-import random
-import time
+import random,time,string
+from math import floor
 
 class Knots:
 
@@ -24,9 +24,9 @@ class Knots:
                     pass
             step += 1
 
-        charObj.CHARACTERS["BRAIDED"] = braided_string
+        charObj.CHARACTERS["fBRAIDED"] = braided_string
 
-class Encoder:
+class Interpreter:
 
     def __init__(self,key,baseObj):
         self.key = key
@@ -39,9 +39,15 @@ class Encoder:
                 return self.key[char]
 
         encoded_string = [encode(c) for c in string]
+        for i in encoded_string:
+            if i == None:
+                index = encoded_string.index(i)
+                encoded_string.pop(index)
+                encoded_string.insert(index,'\n')
+
         return "".join(encoded_string)
 
-    def decoder(self,string):
+    def decoder(self,string,aglet=False):
         length = self.baseObj.getMaxLength()        
 
         def decode(string,step):
@@ -56,52 +62,92 @@ class Encoder:
             decoded_string.append(decode(string,step))
             step += length
         
+        if aglet == False:
+            decoded_string.append("\n")
+        
         return "".join(decoded_string)
+    
+    def fileCoder(self,path,file_mode='e'):
+        test_length = self.baseObj.getMaxLength()
+        file_lines = []
+        match_percent = 0
+
+        with open(file=path,mode='r') as file:
+            file_lines = file.readlines()
+            test_line_0 = file_lines[0]
+            matches = 0
+            total_count = 0
+
+            step = 0
+            while step < len(test_line_0):
+                next_char = test_line_0[step:step+test_length]
+                for char in self.key:
+                    if next_char == self.key[char]:
+                        matches += 1
+                total_count += 1
+                step += test_length
+            try:
+                match_percent = floor((matches / total_count) * 100)
+                print(f"{match_percent}% match to the encryption key")
+            except ZeroDivisionError:
+                pass
+
+        with open(path,mode='w') as file:
+            for line in file_lines:
+                if file_mode == 'e' and match_percent == 0:
+                    file.write(self.encoder(line))
+                elif file_mode == 'd' and match_percent in range(90,100):
+                    if line != file_lines[-1]:
+                        file.write(self.decoder(line))
+                        continue
+                    file.write(self.decoder(line,aglet=True))
+                else:
+                    file.write(line)
+
+class EncrypterTest:
+    base_test = encrypter.BaseConverter(8)
+    char_test = encrypter.CharGenerator()
+    Knots().fBraid(char_test)
+
+    @classmethod
+    def setup(cls):
+        cls.char_test.setStitch("EQUALS","fBRAIDED",STEP=4,
+                                OFFSET=3,ROTATION=15)
+        cls.char_test.strand("fBRAIDED")
+        cls.braid = cls.char_test.getStrandedDict("fBRAIDED")
+
+    @classmethod
+    def makeKey(cls):
+        for char in cls.braid:
+            next_char = cls.braid[char]
+            next_value = cls.base_test.convert(next_char,fill_char='|',
+                                                neg_char='&')
+            cls.braid[char] = next_value
+    
+        test_length = cls.base_test.getMaxLength()
+        for char in cls.braid:
+            next_char = cls.braid[char]
+            next_value = [c for c in next_char]
+            next_value = cls.base_test.testLength(next_value,test_length,'?',
+                                            inserts=True)
+            cls.braid[char] = "".join(next_value) 
 
 def main():
-    char_test = encrypter.CharGenerator()
-    base_test = encrypter.BaseConverter(9)
-
-    #Create a new strand and add it to the CharGenerator object
-    Knots.fBraid(char_test)
-    char_test.setStitch("NOTEQUALS","BRAIDED",STEP=3,OFFSET=2,ROTATION=-45)
-    char_test.strand("BRAIDED")
-
-    #Grab the strand to assign new values
-    braids = char_test.getStrandedDict("BRAIDED")
-
-    #Create a mask using random.choice, convert strand values to a base count
-    fill_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?&%#!@-'
-    neg_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?&%#!@-'
-    for key in braids:
-        fill_char = random.choice(fill_chars)
-        neg_char = random.choice(neg_chars)
-
-        value = base_test.baseConverter(braids[key],fill_char=fill_char,neg_char=neg_char)
-        value = [x for x in value]
-        braids[key] = value
+    file_path = 'test files/test.txt'
     
-    #Ensure all values are the same length using mask
-    length = base_test.getMaxLength()
-    for key in braids:
-        fill_char = random.choice(fill_chars)
-        value = base_test.testLength(braids[key],length,char=fill_char,inserts=True)
-        braids[key] = value
+    EncrypterTest()
+    EncrypterTest.setup()
+    EncrypterTest.makeKey()
 
-    #Use strand as a key for an Encoder object
-    control = Encoder(braids,base_test)
-    mystring = "Banana Boats"
-
-    mystring_encoded = control.encoder(mystring)
-    mystring_decoded = control.decoder(mystring_encoded)
-    
-    print(f"mystring: {mystring} [length: {len(mystring)}]")
-    print(f"Encoded: {mystring_encoded}")
-    print(f"Decoded: {mystring_decoded} [length: {len(mystring_decoded)}]")
+    Interpreter(EncrypterTest.braid,
+                EncrypterTest.base_test).fileCoder(file_path,file_mode='e')
 
 if __name__ == "__main__":
     start = time.time()
+
     main()
+
     finish = time.time()
+
     t_time = round(finish - start,4)
     print(f"Finished script in {t_time} seconds")
