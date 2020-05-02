@@ -1,6 +1,8 @@
 README file for encrypter.py
 
-encrypter.py version no. 1.0
+encrypter.py version no. 1.1
+
+790 lines of code as of 05/02/2020
 
 to start, import encrypter.py as follows:
 "from encrypter import encrypter"
@@ -20,7 +22,7 @@ Dependancies:
     - pkg_utils
         encrypter defines three dependencies as utiliy functions:
 
-        1. encrypt_threader
+        1. Threader
         2. encrypt_logger
         3. encrypt_config
 
@@ -78,7 +80,7 @@ BaseConverter - class
 
     methods:
 
-        1. baseConverter
+        1. convert
             Using the base value in the constructor, baseConverter takes an integer
             value then returns a new integer counting from the base value. The new
             value is then returned as a string object with filler and negative
