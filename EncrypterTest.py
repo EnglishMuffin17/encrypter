@@ -1,6 +1,6 @@
 from encrypter import encrypter
-import random,time,string
 from math import floor
+import time
 
 class Knots:
 
