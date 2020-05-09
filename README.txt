@@ -1,6 +1,6 @@
 README file for knitcrypter.py
 
-encrypter.py version no. 2.1
+knitcrypter.py version no. 2.1
 
 790 lines of code as of 05/02/2020
 
