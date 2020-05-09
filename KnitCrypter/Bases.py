@@ -1,7 +1,7 @@
 try:
-    from encrypter.pkg_utils.encrypt_config import Config
-    from encrypter.pkg_utils.encrypt_threader import Threader
-    from encrypter.pkg_utils.encrypt_logger import Logger
+    from KnitCrypter.pkg_utils.encrypt_config import Config
+    from KnitCrypter.pkg_utils.encrypt_threader import Threader
+    from KnitCrypter.pkg_utils.encrypt_logger import Logger
 except ModuleNotFoundError:
     from pkg_utils.encrypt_config import Config
     from pkg_utils.encrypt_threader import Threader
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         negative = rand(-1,1)
         integer = 42*negative
 
-        next_number = Bases(base).baseConverter(integer)
+        next_number = Bases(base).convert(integer)
 
         result = {"Base":base,"Integer":integer,"result":next_number}
         numbers.append(result)

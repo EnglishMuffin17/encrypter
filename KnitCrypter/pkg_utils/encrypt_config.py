@@ -32,7 +32,7 @@ class Config:
     config_log_level = "debug"
 
     #Set path folder for Logger
-    config_log_path = "encrypter/logs/"
+    config_log_path = "KnitCrypter/logs/"
 
     #Set file name for Logger
     config_log_title = "default_encrypt_log"

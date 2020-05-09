@@ -1,7 +1,7 @@
 try:
-    from encrypter.pkg_utils.encrypt_config import Config
-    from encrypter.pkg_utils.encrypt_threader import Threader
-    from encrypter.pkg_utils.encrypt_logger import Logger
+    from KnitCrypter.pkg_utils.encrypt_config import Config
+    from KnitCrypter.pkg_utils.encrypt_threader import Threader
+    from KnitCrypter.pkg_utils.encrypt_logger import Logger
 except ModuleNotFoundError:
     from pkg_utils.encrypt_config import Config
     from pkg_utils.encrypt_threader import Threader
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     char_test = Chars()
 
     alpha_upper = Chars().setStitch("SIN","UPPER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
-    alpha_lower = Chars().setStich("COS","LOWER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
+    alpha_lower = Chars().setStitch("COS","LOWER_ALPHA",STEP=1,ROTATION=0,OFFSET=10000)
 
     print(alpha_upper)
     print(alpha_lower)

@@ -2,7 +2,7 @@ try:
     try:
         from pkg_utils.encrypt_config import Config
     except ModuleNotFoundError:
-        from encrypter.pkg_utils.encrypt_config import Config
+        from KnitCrypter.pkg_utils.encrypt_config import Config
 except ModuleNotFoundError:
     from encrypt_config import Config
 finally:

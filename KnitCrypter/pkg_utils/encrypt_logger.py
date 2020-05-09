@@ -2,7 +2,7 @@ try:
     try:
         from pkg_utils.encrypt_config import Config
     except ModuleNotFoundError:
-        from encrypter.pkg_utils.encrypt_config import Config
+        from KnitCrypter.pkg_utils.encrypt_config import Config
 except ModuleNotFoundError:
     from encrypt_config import Config
 finally:
@@ -107,7 +107,7 @@ class Logger:
 if __name__ == "__main__":
     print("Running from encrypt_log.py as <__main__>")
     
-    log_path = "encrypter/logs/"
+    log_path = "KnitCrypter/logs/"
     log_title = "log_test"
     log_format = "%(message)s"
     Logger.configureLogger(log_path,log_title,log_format,log_enabled=True,log_level="info")

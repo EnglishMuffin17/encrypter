@@ -1,4 +1,4 @@
-from encrypter import encrypter
+from KnitCrypter import knitcrypter
 from math import floor
 import time
 
@@ -105,8 +105,8 @@ class Interpreter:
                     file.write(line)
 
 class EncrypterTest:
-    base_test = encrypter.BaseConverter(8)
-    char_test = encrypter.CharGenerator()
+    base_test = knitcrypter.BaseConverter(8)
+    char_test = knitcrypter.CharGenerator()
     Knots().fBraid(char_test)
 
     @classmethod
@@ -135,12 +135,11 @@ class EncrypterTest:
 def main():
     file_path = 'test files/test.txt'
     
-    EncrypterTest()
     EncrypterTest.setup()
     EncrypterTest.makeKey()
 
     Interpreter(EncrypterTest.braid,
-                EncrypterTest.base_test).fileCoder(file_path,file_mode='e')
+                EncrypterTest.base_test).fileCoder(file_path,file_mode='d')
 
 if __name__ == "__main__":
     start = time.time()

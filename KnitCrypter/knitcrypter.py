@@ -1,8 +1,8 @@
 try:
-    from encrypter.pkg_utils.encrypt_config import Config
-    from encrypter.Bases import Bases
-    from encrypter.Chars import Chars
-    from encrypter.pkg_utils.encrypt_logger import Logger
+    from KnitCrypter.pkg_utils.encrypt_config import Config
+    from KnitCrypter.Bases import Bases
+    from KnitCrypter.Chars import Chars
+    from KnitCrypter.pkg_utils.encrypt_logger import Logger
 except ModuleNotFoundError:
     from pkg_utils.encrypt_config import Config
     from Bases import Bases
@@ -122,7 +122,7 @@ class CharGenerator(Chars):
             return returnDictWarning()
 
 if __name__ == "__main__":
-    print("Running from encrypter.py as <__main__>")
+    print("Running from KnitCrypter.py as <__main__>")
 
 else:
     if Config.show_run_test:
