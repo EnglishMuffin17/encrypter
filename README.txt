@@ -5,7 +5,7 @@ knitcrypter.py version no. 2.1
 790 lines of code as of 05/02/2020
 
 to start, import encrypter.py as follows:
-"from Knitcrypter import knitcrypter"
+"from KnitCrypter import knitcrypter"
 
 Dependancies:
 
