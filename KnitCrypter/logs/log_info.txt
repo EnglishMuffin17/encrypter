@@ -1,2 +1,3 @@
-This is the main directory for any log actions taken by encrypt.py
-any actions will be logged and dated in their respective files here.
+This is the secondary directory for any log files. That is, if a log table
+is pulled from the database, a log file is generated here in 
+'C:\...\KnitCrypter\logs\'

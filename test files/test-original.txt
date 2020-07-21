@@ -1,3 +1,16 @@
 This is a simple text document with little to no importance whatsoever.
 In this file we will demonstrate utilizing encrypter.py by masking each of
 these lines with an encrypted version of itself.
+
+
+[Testing statement 0000] : Look for the silver lining in your clouds
+
+[Testing statement 0001] : Beyond the horizon, is your victory
+
+[Testing statement 0002] : Autobots, assemble
+
+[Testing statement 0003] : A quick brown fox jumps over the lazy dog
+
+[Testing statement 0004] : Nymphs blitz quick vex dwarf jog
+
+[Testing statement 0005] : Quick wafting zephyrs vex bold Jim

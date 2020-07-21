@@ -1,11 +1,29 @@
-"""
-encrypter.py by Keenan W. Wilkinson.
+try:
+    from pkg_utils.handlemethod import handlemethod
+    from pkg_utils.encrypt_utils._Assignment_Handler import _Assignment_Handler
+except ModuleNotFoundError:
+    from KnitCrypter.pkg_utils.handlemethod import handlemethod
+    from KnitCrypter.pkg_utils.encrypt_utils._Assignment_Handler import _Assignment_Handler
 
-A utility module used as an exhibition of encryption algorithms.
+__version__ = [3,0,0]
+__all__ = ["knitpattern","equals","notequals"]
 
-Refer to the README file for further documentation.
-"""
+@handlemethod('debug')
+def default(a):
+    return a
 
-__version__ = "1.1"
+@handlemethod('debug')
+def equals(a,b):
+    if a % b == 0:
+        return a
+    return a * -1
 
-__all__ = ["encrypter","CharGenerator","BaseConverter","EncryptLogger"]
+@handlemethod('debug')
+def notequals(a,b):
+    if a % b != 0:
+        return a
+    return a * -1
+
+@handlemethod('debug')
+def knitpattern(string,base,func=default,*args,**kwargs):
+    return _Assignment_Handler(string,base,func,*args,**kwargs)
