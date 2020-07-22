@@ -30,7 +30,7 @@ run_animation = [
 ]
 
 time_options = [
-    "LIGHTSPEED",
+    "LIGHTSPEED", #This one is just for my entertainment...
     "seconds",
     "minutes",
     "hours"
