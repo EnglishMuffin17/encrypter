@@ -1,11 +1,11 @@
 try:
-    from _Number_Struct import _Number_Struct
-    from _Character_Struct import _Character_Struct
-    from error_checks._Encrypt_Cases import _Test_Cases
+    from encrypt_utils._Number_Struct import _Number_Struct
+    from encrypt_utils._Character_Struct import _Character_Struct
+    from encrypt_utils.error_checks._Encrypt_Cases import _Test_Cases
 except ModuleNotFoundError:
-    from ._Number_Struct import _Number_Struct
-    from ._Character_Struct import _Character_Struct
-    from .error_checks._Encrypt_Cases import _Test_Cases
+    from .encrypt_utils._Number_Struct import _Number_Struct
+    from .encrypt_utils._Character_Struct import _Character_Struct
+    from .encrypt_utils.error_checks._Encrypt_Cases import _Test_Cases
 
 def _generate_values(string,base,func,*args,**kwargs):
     for step in range(len(string)):
