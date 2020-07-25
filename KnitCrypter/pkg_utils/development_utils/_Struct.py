@@ -1,9 +1,21 @@
 try:
-    from error_checks._Dev_Cases import _Test_Cases
+    from error_checks._Dev_Cases import _verify_attribute_set
 except ModuleNotFoundError:
-    from .error_checks._Dev_Cases import _Test_Cases
+    from .error_checks._Dev_Cases import _verify_attribute_set
 finally:
     from string import ascii_lowercase
+
+def _get_var_name(index:int):
+    var_stack = []
+    if index == 0:
+        return ascii_lowercase[0]
+    
+    while index > 0:
+        remainder = index % 26
+        var_stack.insert(0,remainder)
+        index = index // 26
+    
+    return "".join([ascii_lowercase[x] for x in var_stack])
 
 class _Struct:
 
@@ -41,24 +53,9 @@ class _Struct:
 
     @_args.setter
     def _args(self,values:list):
-        _Test_Cases._verify_attribute_set(self,"__args")
+        _verify_attribute_set(self,"__args")
         _args_dict = {}
         
         for i in range(len(values)):
-            key = _Struct._get_var_name(i)
+            key = _get_var_name(i)
             _args_dict[f"var_{key}"] = values[i]
-
-    @staticmethod
-    def _get_var_name(index:int):
-        var_stack = []
-
-        if index == 0:
-            return ascii_lowercase[0]
-        
-        while index > 0:
-            remainder = index % 26
-            var_stack.insert(0,remainder)
-
-            index = index // 26
-        
-        return "".join([ascii_lowercase[x] for x in var_stack])

@@ -1,9 +1,11 @@
 try:
     from _Console import _Console
+    from error_checks._Dev_Cases import _verify_path_exists
 except ModuleNotFoundError:
     from ._Console import _Console
+    from .error_checks._Dev_Cases import _verify_path_exists
 finally:
-    import json,os
+    import json
 
 class _ConfigReader:
     
@@ -26,7 +28,7 @@ class _ConfigReader:
     
     def _read_config(self):
         """Reads json file then assigns contents as class attrs"""
-        if _ConfigReader._verify_path_exists(self._path):
+        if _verify_path_exists(self._path):
             with open(self._path,"r") as jFile:
                 contents = json.load(jFile)
         
@@ -34,7 +36,3 @@ class _ConfigReader:
                 setattr(self,key,contents[key])
         
             del(contents)
-    
-    @staticmethod
-    def _verify_path_exists(path:str):
-        return os.path.exists(path)

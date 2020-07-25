@@ -1,4 +1,5 @@
-from KnitCrypter import knitpattern,handlemethod,equals,notequals
+from KnitCrypter import knitpattern,handlemethod,equals,notequals,pull_handler_log
+
 from random import choice,randint
 from datetime import datetime
 from sys import stdout,stdin
@@ -36,6 +37,7 @@ time_options = [
     "hours"
 ]
 
+@handlemethod('info')
 def performance_case():
     base = choice(base_options)
     func = choice(func_options)
@@ -45,12 +47,14 @@ def performance_case():
     knitpattern(braid,base,func,arg)
     return time.time() - start
 
+@handlemethod('info')
 def performance_status(current_inter,stop_inter):
     status = round((current_inter / stop_inter) * 100,2)
     frame = run_animation[floor(status) % 4]
     stdout.write(f"\r{frame} {status}% complete. {current_inter}/{stop_inter} ")
     stdout.flush()
 
+@handlemethod('info')
 def performance_test():
     performance_tests = []
     for i in range(iters):
@@ -60,6 +64,7 @@ def performance_test():
 
     return sum(performance_tests) / iters
 
+@handlemethod('info')
 def completion_time(start_time):
     time_stack = []
     seconds_top = ceil(time.time() - start_time)

@@ -1,11 +1,11 @@
 try:
     from encrypt_utils._Number_Struct import _Number_Struct
     from encrypt_utils._Character_Struct import _Character_Struct
-    from encrypt_utils.error_checks._Encrypt_Cases import _Test_Cases
+    from encrypt_utils.error_checks._Encrypt_Cases import _verify_sequence_pattern
 except ModuleNotFoundError:
     from .encrypt_utils._Number_Struct import _Number_Struct
     from .encrypt_utils._Character_Struct import _Character_Struct
-    from .encrypt_utils.error_checks._Encrypt_Cases import _Test_Cases
+    from .encrypt_utils.error_checks._Encrypt_Cases import _verify_sequence_pattern
 
 def _generate_values(string,base,func,*args,**kwargs):
     for step in range(len(string)):
@@ -15,7 +15,7 @@ def _assign_values(generator):
     return_values = {}
     for i in generator:
         return_values[i[0]] = i[1]
-    _Test_Cases._verify_sequence_pattern(return_values)
+    _verify_sequence_pattern(return_values)
     return return_values
 
 def _extract_from_index(pattern:dict,index):

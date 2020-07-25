@@ -1,7 +1,7 @@
 try:
-    from error_checks._Encrypt_Cases import _Test_Cases
+    from error_checks._Encrypt_Cases import _verify_attribute_set,_verify_char_value
 except ModuleNotFoundError:
-    from .error_checks._Encrypt_Cases import _Test_Cases
+    from .error_checks._Encrypt_Cases import _verify_attribute_set,_verify_char_value
 
 class _Character_Struct:
 
@@ -23,6 +23,6 @@ class _Character_Struct:
 
     @_char.setter
     def _char(self,char:str):
-        _Test_Cases._verify_attribute_set(self,'__char')
-        _Test_Cases._verify_char_value(char)
+        _verify_attribute_set(self,'__char')
+        _verify_char_value(char)
         self.__char = char

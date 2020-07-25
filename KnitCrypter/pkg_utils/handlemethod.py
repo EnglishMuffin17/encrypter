@@ -1,12 +1,12 @@
 try:
     from development_utils._Cache import _Cache
-    from development_utils._Logger import _Logger
-    from development_utils._Debug import _Debug
+    from development_utils._Logger import _Logger,_get_logs,_pull_log
+    from development_utils._Debug import _check_flags
     from development_utils._Console import _Console
 except ModuleNotFoundError:
     from .development_utils._Cache import _Cache
-    from .development_utils._Logger import _Logger
-    from .development_utils._Debug import _Debug
+    from .development_utils._Logger import _Logger,_get_logs,_pull_log
+    from .development_utils._Debug import _check_flags
     from .development_utils._Console import _Console
 
 class handlemethod:
@@ -16,7 +16,7 @@ class handlemethod:
 
     def __init__(self,log_level:str='debug',debug_flags:[str]=('module')):
         self._log_level = log_level
-        self._debug_enabled = _Debug()._check_flags(*debug_flags)
+        self._debug_enabled = _check_flags(*debug_flags)
 
     def __call__(self,func):
 
@@ -40,4 +40,8 @@ class handlemethod:
 
         return _handle
 
-handlemethod()
+def pull_handler_log(log_index=-1):
+    try:
+        _pull_log(_get_logs()[log_index],True)
+    except IndexError:
+        print("Could not get desired log from index, log does not exist")
