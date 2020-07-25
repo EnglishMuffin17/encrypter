@@ -1,11 +1,11 @@
 try:
     from _Utility import _Utility
-    from _Debug import _Debug
+    from _Debug import _check_flags
     from _Console import _Console
     from _Container import _Container
 except ModuleNotFoundError:
     from ._Utility import _Utility
-    from ._Debug import _Debug
+    from ._Debug import _check_flags
     from ._Console import _Console
     from ._Container import _Container
 finally:
@@ -35,7 +35,7 @@ class _Cache(_Utility):
 
     def __init__(self):
         super().__init__("Cache_Options")
-        self._debug_enabled = _Debug()._check_flags("cache")
+        self._debug_enabled = _check_flags("cache")
 
         if self.use_cache and self._cache_container == None:
             _get_mod = self._config_info["CACHE_SIZE_MOD"]

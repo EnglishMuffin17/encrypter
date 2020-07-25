@@ -1,12 +1,12 @@
 from datetime import datetime
 
-_print_count = -1
-
 class _Console:
 
     """
     Handles the format console messages utilize
     """
+
+    __print_count = -1
 
     def __init__(self,message="Default message",delimiter="|"):
         self._message = message
@@ -34,14 +34,11 @@ class _Console:
 
     @property
     def _count(self):
-        global _print_count
-        _print_count += 1
-        return _print_count
-
-    @staticmethod
-    def _print_count():
-        global _print_count
-        return _print_count
+        _Console.__print_count += 1
+        return _Console.__print_count
     
     def _submit(self):
         print(self)
+
+def _print_count():
+    return _Console.__print_count

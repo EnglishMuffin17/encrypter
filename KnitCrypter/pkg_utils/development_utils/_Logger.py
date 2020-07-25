@@ -1,14 +1,16 @@
 try:
     from _Utility import _Utility
     from _Console import _Console
-    from _Debug import _Debug
+    from _Debug import _check_flags
 except ModuleNotFoundError:
     from ._Utility import _Utility
     from ._Console import _Console
-    from ._Debug import _Debug
+    from ._Debug import _check_flags
 finally:
     from os import path
     import sqlite3
+
+_entry = lambda e:f"{e[0]} {e[-1]} {e[1]}: args {e[2]}; kwargs {e[3]}; return {e[4]}"
 
 class _Logger(_Utility):
 
@@ -33,11 +35,11 @@ class _Logger(_Utility):
         "critical":'[CRITICAL]'
     }
     
-    def __init__(self):
+    def __init__(self,create_log=True):
         super().__init__("Logging_Options")
-        self._debug_enabled = _Debug()._check_flags("logging")
+        self._debug_enabled = _check_flags("logging")
 
-        if self.use_logger:
+        if self.use_logger and create_log:
             if self._debug_enabled:
                 _Console("Logger instantiated...")._submit()
             self._init_log()
@@ -81,11 +83,11 @@ class _Logger(_Utility):
             self._connection.execute(f"""
                                     CREATE TABLE {self._log_table}(
                                         entry_time DATETIME(50),
-                                        method_id VARCHAR(150),
+                                        method_id TEXT,
                                         arguments TEXT,
                                         keyword_arguments TEXT,
                                         return_values TEXT,
-                                        entry_tag VARCHAR(10)
+                                        entry_tag TEXT
                                     )
                                     """)
             self._connection.commit()
@@ -103,18 +105,31 @@ class _Logger(_Utility):
             
             self._connect
             
-            #submit a log entry to designated table
-            self._connection.execute(f"""
-                                    INSERT INTO '{self._log_table}'
-                                    VALUES(
-                                        '{_Console()._time}',
-                                        '{func.__qualname__}',
-                                        '{args}',
-                                        '{kwargs}',
-                                        '{r_value}',
-                                        '{self._LOG_TAGS[level]}'
-                                    )
-                                    """)
+            try:
+                self._connection.execute(f"""
+                                        INSERT INTO '{self._log_table}'
+                                        VALUES(
+                                            '{_Console()._time}',
+                                            '{func.__qualname__}',
+                                            '{args}',
+                                            '{kwargs}',
+                                            '{r_value}',
+                                            '{self._LOG_TAGS[level]}'
+                                        )
+                                        """)
+            except sqlite3.OperationalError:
+                self._connection.execute(f"""
+                                        INSERT INTO '{self._log_table}'
+                                        VALUES(
+                                            '{_Console()._time}',
+                                            '{func.__qualname__}',
+                                            '',
+                                            '',
+                                            '{r_value}',
+                                            '{self._LOG_TAGS[level]}'
+                                        )
+                                        """)
+
             self._connection.commit()
 
             if self._debug_enabled:
@@ -123,71 +138,59 @@ class _Logger(_Utility):
                 )._submit()
             self._disconnect
     
-    def _get_logs(self) -> list: 
-        self._connect
+def _get_logs() -> list: 
+    database_agent = _Logger(False)
+    database_agent._connect
 
-        #pull the desired log table from log database
-        _cursor = self._connection.execute(f"""
-                                    SELECT name FROM sqlite_master
-                                    WHERE type='table'
-                                    """)
-        _log_tables = [
-            t[0] for t in _cursor.fetchall()
-            if t[0] != "sqlite_sequence"
-        ]
+    _cursor = database_agent._connection.execute(f"""
+                                SELECT name FROM sqlite_master
+                                WHERE type='table'
+                                """)
+    _log_tables = [
+        t[0] for t in _cursor.fetchall()
+        if t[0] != "sqlite_sequence"
+    ]
 
-        if self._debug_enabled:
-            _Console(
-                "Pulled log tables from log database"
-            )._submit()
-        self._disconnect
+    if database_agent._debug_enabled:
+        _Console("Pulled log tables from log database")._submit()
+    database_agent._disconnect
 
-        return _log_tables
+    return _log_tables
 
-    def _pull_log(self,log_table:str,to_file:bool=False): 
-        if self._get_logs().__contains__(log_table):
-            _pulled_log = self._extract_log(log_table)
+def _pull_log(log_table:str,to_file:bool=False):
+    database_agent = _Logger(False)
+    found_table = _get_logs().__contains__(log_table)
 
-            if to_file:
-                self._init_file(log_table,_pulled_log)
-
-        else:
-            if self._debug_enabled:
-                _Console(
-                    "Could not find target log table"
-                )._submit()
-                return None
+    if found_table and to_file == True:
+        return _init_file(log_table,_extract_log_data(log_table))    
     
-    def _extract_log(self,log_table:str) -> list:   
-            self._connect
+    elif found_table and to_file == False:
+        return _extract_log_data(log_table)
+    
+    elif database_agent._debug_enabled:
+        _Console("Could not find target log table")._submit()
 
-            _cursor = self._connection.execute(f"""
-                                    SELECT * FROM {log_table}
-                                    """)
-            _pulled_log = [
-                l for l in _cursor.fetchall()
-            ]
+def _extract_log_data(log_table:str) -> list:  
+    database_agent = _Logger(False)
+    database_agent._connect
 
-            if self._debug_enabled:
-                _Console(
-                    f"Selected table {log_table} found"
-                )._submit()
-            self._disconnect
+    _cursor = database_agent._connection.execute(f"SELECT * FROM {log_table}")
+    _pulled_log = [l for l in _cursor.fetchall()]
 
-            return _pulled_log
+    if database_agent._debug_enabled:
+        _Console(f"Selected table {log_table} found")._submit()
+    database_agent._disconnect
 
-    def _init_file(self,log_table_name:str,log_table_data:list):
-        _file_path = self.log_file_path+log_table_name+".log"
+    return _pulled_log
+
+def _init_file(log_table_name:str,log_table_data:list):
+    database_agent = _Logger(False)
+    _file_path = database_agent.log_file_path+log_table_name+".log"
         
-        if path.exists(self.log_file_path):
+    if path.exists(database_agent.log_file_path):
+        with open(_file_path,"w") as log_file:
+            for e in log_table_data:
+                log_file.write(_entry(e)+'\n')
 
-            with open(_file_path,"w") as log_file:
-
-                for e in log_table_data:
-                    file_entry = f"{e[0]} {e[-1]} {e[1]}: args {e[2]}; kwargs {e[3]}; return {e[4]}"
-                    log_file.write(file_entry+'\n')
-
-            if self._debug_enabled:
-                _Console(
-                    "Created log file from table"
-                )._submit()
+        if database_agent._debug_enabled:
+            _Console("Created log file from table")._submit()

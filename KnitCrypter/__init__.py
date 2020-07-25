@@ -1,8 +1,8 @@
 try:
-    from pkg_utils.handlemethod import handlemethod
+    from pkg_utils.handlemethod import handlemethod,pull_handler_log
     from pkg_utils._Assignment_Handler import _Assignment_Handler
 except ModuleNotFoundError:
-    from KnitCrypter.pkg_utils.handlemethod import handlemethod
+    from KnitCrypter.pkg_utils.handlemethod import handlemethod,pull_handler_log
     from KnitCrypter.pkg_utils._Assignment_Handler import _Assignment_Handler
 
 __version__ = [3,0,0]

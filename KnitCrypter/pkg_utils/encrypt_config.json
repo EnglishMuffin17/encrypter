@@ -12,19 +12,19 @@
                             ]
     },
     "Cache_Options":{
-        "use_cache":false,
+        "use_cache":true,
         "auto_cleanup":true,
         "cache_size":4,
         "cache_path":"KnitCrypter\\data\\cache_data.db"
     },
     "Logging_Options":{
-        "use_logger":false,
+        "use_logger":true,
         "log_level":"debug",
         "log_path":"KnitCrypter\\data\\",
         "log_file_path":"KnitCrypter\\logs\\"
     },
     "Debugging_Options":{
         "enable_debug_mode":false,
-        "debug_flags":["*"]
+        "debug_flags":[]
     }
 }
