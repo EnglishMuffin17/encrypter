@@ -1,10 +1,8 @@
 try:
-    from pkg_utils.handlemethod import handlemethod,pull_handler_log
     from pkg_utils._Assignment_Handler import _Assignment_Handler as __AH
     from pkg_utils._Context_Manager import _Context_Manager as __CM
     from pkg_utils.encrypt_utils.error_checks import _Encrypt_Errors as KCE
 except ModuleNotFoundError:
-    from KnitCrypter.pkg_utils.handlemethod import handlemethod,pull_handler_log
     from KnitCrypter.pkg_utils._Assignment_Handler import _Assignment_Handler as __AH
     from KnitCrypter.pkg_utils._Context_Manager import _Context_Manager as __CM
     from KnitCrypter.pkg_utils.encrypt_utils.error_checks import _Encrypt_Errors as KCE

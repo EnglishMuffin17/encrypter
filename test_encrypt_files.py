@@ -1,9 +1,10 @@
-from KnitCrypter import knitcrypt,knitpattern,KCE
+from KnitCrypter import knitcrypt, knitpattern, KCE
 
 input_file_path = 'test files\\test-original.txt'
 output_file_path = 'test files\\test.txt'
 
-braid = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,] [:\n'
+braid = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456780.,] [:\n'
+
 
 def test_func(x):
     try:
@@ -11,9 +12,10 @@ def test_func(x):
     except ZeroDivisionError:
         return x
 
-new_pattern = knitpattern(braid,hex,func=test_func)
 
-with knitcrypt(output_file_path,new_pattern) as blanket:
+new_pattern = knitpattern(braid, hex, func=test_func)
+
+with knitcrypt(output_file_path, new_pattern) as blanket:
     try:
         blanket.stitch().all_lines()
         blanket.stitch().stamp_contents()

@@ -1,3 +1,0 @@
-This is the secondary directory for any log files. That is, if a log table
-is pulled from the database, a log file is generated here in 
-'C:\...\KnitCrypter\logs\'
