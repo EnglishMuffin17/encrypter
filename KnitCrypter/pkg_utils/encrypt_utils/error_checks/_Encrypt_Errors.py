@@ -4,7 +4,8 @@ def _extract_type(o:object):
 class SequenceError(Exception):
 
     _error_reasons = {
-        0:lambda array:f"{array} has one or more equivalent values"
+        0:lambda array:f"{array} has one or more equivalent values",
+        1:lambda array:f"{array} has one or more equivalent keys"
     }
 
     def __init__(self,array,reason=0):
@@ -14,3 +15,12 @@ class SequenceError(Exception):
 
     def __str__(self):
         return self._reason
+
+class EncryptionError(Exception):
+    
+    def __init__(self,message="there was an error trying to encrypt the file"):
+        self._message = message
+        super().__init__()
+
+    def __str__(self):
+        return self._message

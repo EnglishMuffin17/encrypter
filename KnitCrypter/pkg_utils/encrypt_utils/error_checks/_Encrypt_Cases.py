@@ -2,6 +2,8 @@ try:
     from _Encrypt_Errors import *
 except ModuleNotFoundError:
     from ._Encrypt_Errors import *
+finally:
+    from os.path import exists
 
 def _extract_type(o:object):
     return str(o.__class__).strip(" <clas>")
@@ -29,9 +31,28 @@ def _verify_attribute_set(o:object,attribute):
         attr_name = attribute.strip("_")
         raise AttributeError(f"attribute '{attr_name}' has already been set")
 
-def _verify_sequence_pattern(sequence:dict):
-    sequence = list(sequence.values())
-    for i in range(len(sequence)):
-        for j in range(len(sequence)):
-            if sequence[i] == sequence[j] and i != j:
-                raise SequenceError(sequence,reason=0)
+def _separate_keys_from_values(pattern:dict):
+    return list(pattern.keys()),list(pattern.values())
+
+def _compare_sequence_attributes(i,pattern:dict):
+    sequence = _separate_keys_from_values(pattern)
+    for j in range(len(pattern)):
+        if sequence[0][i] == sequence[0][j] and i != j:
+            raise SequenceError(pattern,1)
+        if sequence[1][i] == sequence[1][j] and i != j:
+            raise SequenceError(pattern,0)
+
+def _verify_sequence_pattern(pattern:dict):
+    for i in range(len(pattern)):
+        _compare_sequence_attributes(i,pattern)
+
+def _verify_file_exists(file_path:str):
+    if not exists(file_path):
+        raise FileNotFoundError(f"file '{file_path}' is either incorrect or file does not exist")
+
+def _verify_file_encrypted(file_lines:list,file_encrypted_stamp:str):
+    return file_lines[-1] == file_encrypted_stamp
+
+def _verify_mode_flags(o:object,flag):
+    if not o._mode_flags.__contains__(flag):
+        raise AttributeError(f"flag '{flag}' does not exist as a legal flag")
