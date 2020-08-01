@@ -3,14 +3,16 @@ try:
 except ModuleNotFoundError:
     from ._Dev_Errors import *
 finally:
-    import os
+    from os.path import exists
 
 def _verify_flag(flag_array:list,flag):
     if not flag_array.__contains__(flag):
         raise FlagError(flag,reason=0)
     
 def _verify_path_exists(path:str):
-    return os.path.exists(path)
+    if exists(path):
+        return True
+    raise FileNotFoundError(f"file path {path} could not be located")
 
 def _verify_attribute_exists(o:object,attribute):
     if o.__dict__.__contains__(attribute):
