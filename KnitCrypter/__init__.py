@@ -2,7 +2,7 @@ from KnitCrypter.pkg_utils._Assignment_Handler import _Assignment_Handler
 from KnitCrypter.pkg_utils._Context_Manager import _Context_Manager
 from KnitCrypter.pkg_utils.encrypt_utils.error_checks import _Encrypt_Errors
 
-__version__ = [2, 0, 5]
+__version__ = [2, 0, 7]
 __all__ = ["_Encrypt_Errors", "knitpattern", "knitcrypt"]
 
 
