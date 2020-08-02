@@ -60,8 +60,12 @@ class _Assignment_Handler:
     class __Sequence:
 
         def __init__(self, sequence: dict):
+            self.__sequence = sequence
             self.__keys = list(sequence.keys())
             self.__values = list(sequence.values())
+
+        def __iter__(self):
+            return iter(self.__sequence)
 
         @property
         def from_keys(self):
