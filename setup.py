@@ -20,7 +20,7 @@ read_README.close()
 
 setup(
     name="KnitCryption",
-    version="2.0.8",
+    version="2.0.9",
     packages=find_packages(),
     scripts=[],
     install_requires=["docutils>=0.3"],

@@ -3,7 +3,7 @@ from KnitCrypter.pkg_utils._Context_Manager import _Context_Manager
 from KnitCrypter.pkg_utils.encrypt_utils.error_checks import _Encrypt_Errors
 from KnitCrypter.pkg_utils import algorithm_utils as Algorithms
 
-__version__ = [2, 0, 8]
+__version__ = [2, 0, 9]
 __all__ = ["_Encrypt_Errors", "Algorithms", "knitpattern", "knitcrypt"]
 
 
