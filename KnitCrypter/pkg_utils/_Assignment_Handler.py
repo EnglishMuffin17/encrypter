@@ -33,11 +33,6 @@ def _extract_prefix(base):
 def _extract_from_index(pattern: dict, index):
     return f"{list(pattern.values())[index]}"
 
-def _extract_prefix(base):
-    return findall(r'[\d+][xob]',str(base))[0]
-
-def _extract_from_index(pattern:dict,index):
-    return f"{list(pattern.values())[index]}"
 
 class _Assignment_Handler:
 
