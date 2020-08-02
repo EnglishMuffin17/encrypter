@@ -12,5 +12,6 @@ setup(
     author="Keenan W. Wilkinson",
     author_email="keenanwilkinson@outlook.com",
     description="Encrytion package to assist in hiding data",
+    license="GPL-3.0 license",
     url="https://github.com/WilkinsonK/KnitCryption"
 )
