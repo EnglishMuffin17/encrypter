@@ -44,9 +44,11 @@ knitpattern objects allow the user to get thier total length directly from
 calling 'len(knitpattern)' but is not immediately iterable. Instead use the
 sequence property to iterate through a knitpattern object.
 
-Overall, a knitpattern object would be instantiated, like this:\n
+Overall, a knitpattern object would be instantiated, like this:
+
 >>> assignment = lamda x,y: y**x\n
->>> my_key = knitpattern('abcdefg...',hex,assignment,3)
+
+>>> my_key = knitpattern('abcdefg...', hex, assignment, 3)
 
 knitcrypt; a knitcrypt object is a context manager to allow encrypting entire
 files from a knitpattern object. A knitcrypt object requires a minimum of two
@@ -97,7 +99,10 @@ available to the user:
 Before a knitcrypt object exits, it will call the _File_Struct object's close
 method to finalize the modification.
 
-Overall a knitcrypt object should be instantiated like so:\n
->>> with knitcrypt('.\somepath', my_key) as blanket:\n
->>>     blanket.stitch.all_lines()\n
+Overall a knitcrypt object should be instantiated like so:
+
+>>> with knitcrypt('.\somepath', my_key) as blanket:
+
+>>>     blanket.stitch.all_lines()
+
 >>>     blanket.stitch.stamp_contents()
