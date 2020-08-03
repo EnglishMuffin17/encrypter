@@ -1,6 +1,6 @@
-from .encrypt_utils._Number_Struct import _Number_Struct
-from .encrypt_utils._Character_Struct import _Character_Struct
-from .encrypt_utils.error_checks._Encrypt_Cases import _verify_sequence_pattern
+from .classes._Number_Struct import _Number_Struct
+from .classes._Character_Struct import _Character_Struct
+from .classes.error_checks._Encrypt_Cases import _verify_sequence_pattern
 from re import findall
 
 
@@ -34,9 +34,13 @@ def _extract_from_index(pattern: dict, index):
     return f"{list(pattern.values())[index]}"
 
 
+def default(step: int):
+    return step
+
+
 class _Assignment_Handler:
 
-    def __init__(self, string: str, base: any, func, *args, **kwargs):
+    def __init__(self, string: str, base: any, func=default, *args, **kwargs):
         generator = _generate_values(string, base, func, *args, **kwargs)
         self.__pattern = _assign_values_from_generator(generator)
         self.__first = _extract_from_index(self.__pattern, 0)
