@@ -1,4 +1,4 @@
-from .encrypt_utils._File_Struct import _File_Struct
+from .classes._File_Struct import _File_Struct
 
 
 class _Context_Manager:

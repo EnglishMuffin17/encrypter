@@ -1,34 +1,9 @@
-from KnitCrypter.pkg_utils._Assignment_Handler import _Assignment_Handler
-from KnitCrypter.pkg_utils._Context_Manager import _Context_Manager
-from KnitCrypter.pkg_utils.encrypt_utils.error_checks import _Encrypt_Errors
+from KnitCrypter.encrypt_utils import knitpattern
+from KnitCrypter.encrypt_utils import knitcrypt
+from KnitCrypter.encrypt_utils import exceptions
 
-__version__ = [2, 0, 8]
-__all__ = ["_Encrypt_Errors", "knitpattern", "knitcrypt"]
-
-
-def default(a):
-    return a
+from KnitCrypter import stitch_patterns as stitch_patterns
 
 
-def equals(a, b):
-    if a % b == 0:
-        return a
-    return a * -1
-
-
-def notequals(a, b):
-    if a % b != 0:
-        return a
-    return a * -1
-
-
-class knitpattern(_Assignment_Handler):
-
-    def __init__(self, string, base, func=default, *args, **kwargs):
-        super().__init__(string, base, func, *args, **kwargs)
-
-
-class knitcrypt(_Context_Manager):
-
-    def __init__(self, path, pattern: knitpattern, **kwargs):
-        super().__init__(path, pattern, **kwargs)
+__version__ = [2, 1, 0]
+__all__ = ["knitpattern", "knitcrypt", "exceptions", "stitch_patterns"]
