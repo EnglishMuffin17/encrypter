@@ -2,7 +2,7 @@ KnitCryption Documentation and how-to
 
 KnitCryption/KnitCrypter is intended to make encrypting files/strings/data
 simpler and less of a hassle. Still a constant work in progress, It's not the
-end of the world is something is 'missing' from the overall project.
+end of the world if something is 'missing' from the overall project.
 
 There are some basics to go over first, these are the main tools KnitCrypter has
 to offer.

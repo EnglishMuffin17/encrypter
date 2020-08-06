@@ -1,15 +1,17 @@
 from .error_checks._Encrypt_Cases import _verify_file_encrypted
 from .error_checks._Encrypt_Errors import EncryptionError
 from abc import ABCMeta, abstractmethod
+from re import findall, split as resplit
+
 
 ENCRYPTED = '###_________#FILE_ENCRYPTED#_________###'
 
 
 def _split_tied_string(pattern, string):
     string = string.strip('\n')
-    string = string.split(pattern.prefix)[1:]
-    return [pattern.prefix+c for c in string]
-
+    prefixes = findall(pattern.prefix, string)
+    values = resplit(pattern.prefix, string)[1:]
+    return [prefixes[c] + values[c] for c in range(len(prefixes))]
 
 def _untie_chars(pattern, array: [str]):
     return [pattern.sequence.from_values[c] for c in array]

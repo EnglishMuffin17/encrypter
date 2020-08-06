@@ -1,7 +1,6 @@
-from .classes._Number_Struct import _Number_Struct
+from .classes._Number_Struct import _Number_Struct, _Convert
 from .classes._Character_Struct import _Character_Struct
 from .classes.error_checks._Encrypt_Cases import _verify_sequence_pattern
-from re import findall
 
 
 def _generate_values(string, base, func, *args, **kwargs):
@@ -27,7 +26,9 @@ def _assign_values_from_list(a: list, b: list):
 
 
 def _extract_prefix(base):
-    return findall(r'[\d+][xob]', str(base))[0]
+    if type(base) == int:
+        return _Convert._supported_types[int](base)
+    return _Convert._supported_types[base](base)
 
 
 def _extract_from_index(pattern: dict, index):
@@ -45,13 +46,20 @@ class _Assignment_Handler:
         self.__pattern = _assign_values_from_generator(generator)
         self.__first = _extract_from_index(self.__pattern, 0)
         self.__last = _extract_from_index(self.__pattern, -1)
-        self.__prefix = _extract_prefix(self.__first)
+        self.__prefix = _extract_prefix(base)
 
     def __repr__(self):
         return f"({self.__first},...,{self.__last})"
 
     def __len__(self):
         return len(self.__pattern)
+
+    def __add__(self, other):
+        temp_keys = self.sequence._keys + other.sequence._keys
+        temp_values = self.sequence._values + other.sequence._values
+        self.__pattern = _assign_values_from_list(temp_keys, temp_values)
+        self.__prefix += f'|{other.__prefix}'
+        return self
 
     @property
     def prefix(self):
@@ -70,6 +78,22 @@ class _Assignment_Handler:
 
         def __iter__(self):
             return iter(self.__sequence)
+
+        @property
+        def _keys(self):
+            return self.__keys
+
+        @property
+        def _values(self):
+            return self.__values
+        
+        @property
+        def _max_length(self):
+            return max([len(x) for x in self.__values])
+        
+        @property
+        def _min_length(self):
+            return min([len(x) for x in self.__values])
 
         @property
         def from_keys(self):

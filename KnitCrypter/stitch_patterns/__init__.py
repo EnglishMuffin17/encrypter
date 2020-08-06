@@ -6,6 +6,7 @@ from .classes.__Simple_Funcs import Offset
 from .classes.__Sequence_Funcs import Fibonacci
 from .classes.__Sequence_Funcs import Prime
 from .classes.__Sequence_Funcs import Factorial
+from .classes.__Complex_Funcs import Summations
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
             "Fibonacci",
             "Prime",
             "Factorial",
+            "Summations"
             ]

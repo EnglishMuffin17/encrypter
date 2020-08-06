@@ -13,7 +13,6 @@ class _Number_Struct:
     supported formats:
         - hex     '0x'
         - oct     '0o'
-        - int     '00'
         - 2-10    '0b'
     """
 
@@ -132,4 +131,10 @@ class _Convert:
         "0o": _from_oct,
         "0b": _from_base,
         "00": _from_int
+    }
+
+    _supported_types = {
+        hex: lambda x: '(?:0x)',
+        oct: lambda o: '(?:0o)',
+        int: lambda n: f'(?:{n}b)'
     }
