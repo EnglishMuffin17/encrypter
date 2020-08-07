@@ -134,7 +134,7 @@ class _Convert:
     }
 
     _supported_types = {
-        hex: lambda x: '(?:0x)',
-        oct: lambda o: '(?:0o)',
-        int: lambda n: f'(?:{n}b)'
+        hex: lambda x: r'(?:0x)[0-9a-f]*?',
+        oct: lambda o: r'(?:0o)[0-7]*?',
+        int: lambda n: rf'(?:{n}b)[0-9a-zA-Z]*?'
     }
