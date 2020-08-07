@@ -10,7 +10,8 @@ def _generate_values(string, base, func, *args, **kwargs):
         yield character, number
 
 
-def _assign_values_from_generator(generator):
+def _assign_values(string, base, func, *args, **kwargs):
+    generator = _generate_values(string, base, func, *args, **kwargs)
     return_values = {}
     for i in generator:
         return_values[i[0]] = i[1]
@@ -42,8 +43,7 @@ def default(step: int):
 class _Assignment_Handler:
 
     def __init__(self, string: str, base: any, func=default, *args, **kwargs):
-        generator = _generate_values(string, base, func, *args, **kwargs)
-        self.__pattern = _assign_values_from_generator(generator)
+        self.__pattern = _assign_values(string, base, func, *args, **kwargs)
         self.__first = _extract_from_index(self.__pattern, 0)
         self.__last = _extract_from_index(self.__pattern, -1)
         self.__prefix = _extract_prefix(base)
@@ -54,11 +54,19 @@ class _Assignment_Handler:
     def __len__(self):
         return len(self.__pattern)
 
+    def __iter__(self):
+        return iter(self.sequence.from_keys)
+
+    def __getitem__(self, key):
+        return self.sequence.from_keys[key]
+
     def __add__(self, other):
         temp_keys = self.sequence._keys + other.sequence._keys
         temp_values = self.sequence._values + other.sequence._values
         self.__pattern = _assign_values_from_list(temp_keys, temp_values)
         self.__prefix += f'|{other.__prefix}'
+        self.__first = _extract_from_index(self.__pattern, 0)
+        self.__last = _extract_from_index(self.__pattern, -1)
         return self
 
     @property
@@ -86,11 +94,11 @@ class _Assignment_Handler:
         @property
         def _values(self):
             return self.__values
-        
+
         @property
         def _max_length(self):
             return max([len(x) for x in self.__values])
-        
+
         @property
         def _min_length(self):
             return min([len(x) for x in self.__values])

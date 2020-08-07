@@ -115,7 +115,7 @@ def _get_new_digits(value: int, base: int):
 
 
 def _get_remainder(value: int, modulo: int):
-    return str(value % modulo)
+    return _Convert._sixty_four[value % modulo]
 
 
 class _Convert:
@@ -138,3 +138,7 @@ class _Convert:
         oct: lambda o: r'(?:0o)[0-7]*?',
         int: lambda n: rf'(?:{n}b)[0-9a-zA-Z]*?'
     }
+
+    _digits = '0123456789'
+    _alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    _sixty_four = _digits + _alpha + '+/'

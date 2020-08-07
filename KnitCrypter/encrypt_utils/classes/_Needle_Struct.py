@@ -13,6 +13,7 @@ def _split_tied_string(pattern, string):
     values = resplit(pattern.prefix, string)[1:]
     return [prefixes[c] + values[c] for c in range(len(prefixes))]
 
+
 def _untie_chars(pattern, array: [str]):
     return [pattern.sequence.from_values[c] for c in array]
 

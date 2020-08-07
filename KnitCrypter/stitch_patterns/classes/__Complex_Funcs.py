@@ -10,6 +10,7 @@ __operations = {
         '~': lambda a, b: (sum([n for n in range(a, b)])) // abs(b - a)
     }
 
+
 def _calculate(a: int, b: int, operator: str):
     try:
         return __operations[operator](a, b)
@@ -25,7 +26,7 @@ class __collatz_algorithm:
 
     def __call__(self):
         return self._calc(self.__initial)
-    
+
     def _calc(self, value: int):
         if value <= 1:
             return value
